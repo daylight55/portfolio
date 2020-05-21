@@ -1,0 +1,45 @@
+{
+  "name": "myportfolio",
+  "version": "1.0.0",
+  "description": "My groovy Nuxt.js project",
+  "author": "Andon",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt  --hostname 0.0.0.0 --port 3000",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/date-fns": "^1.3.0",
+    "@nuxtjs/dotenv": "^1.4.0",
+    "@toast-ui/editor": "^2.1.2",
+    "@toast-ui/editor-plugin-code-syntax-highlight": "^1.0.0",
+    "add": "^2.0.6",
+    "aos": "^3.0.0-beta.6",
+    "core-js": "3",
+    "firebase": "^7.14.3",
+    "firebase-admin": "^8.12.1",
+    "firebaseui": "^4.5.0",
+    "nuxt": "^2.12.2",
+    "universal-cookie": "^4.0.3",
+    "vue-scrollto": "^2.18.1",
+    "vue-upload-component": "^2.8.20",
+    "vuetify": "^2.2.27",
+    "yarn": "^1.22.4"
+  },
+  "devDependencies": {
+    "@babel/runtime-corejs2": "^7.9.6",
+    "@babel/runtime-corejs3": "^7.9.6",
+    "@fortawesome/fontawesome-free": "^5.13.0",
+    "@nuxtjs/eslint-config": "^2.0.0",
+    "@nuxtjs/eslint-module": "^1.0.0",
+    "@nuxtjs/vuetify": "^1.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-nuxt": ">=0.4.2"
+  }
+}
