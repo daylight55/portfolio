@@ -29,6 +29,11 @@ export const mutations = {
 };
 
 export const actions = {
+  /*
+  ***************************************
+  **       Index(記事一覧)操作用         **
+  ***************************************
+  */
   // 記事一覧を取得する
   async fetchIndex({ commit }) {
     await db
@@ -41,49 +46,18 @@ export const actions = {
         });
       });
   },
-  // 選択した記事を取得する
-  async fetchPost({ commit }, id) {
-    await db
-      .collection("post_contents")
-      .doc(id)
-      .get()
-      .then(doc => {
-        commit("setPost", doc.data());
-      });
-  },
-  // インデックスを追加する
-  async addIndex({ commit }, { payload }) {
+  // 引数のインデックスを追加する
+  async addIndex ({ commit }, { payload }) {
     await db
       .collection("post_index")
       .add(payload)
       .then(doc => {
         commit("setIndex", payload);
       })
-      .catch(e => {});
+      .catch(e => { });
   },
-  // 記事を追加する
-  async addPost({ commit, dispatch }, { payload }) {
-    await db
-      .collection("post_contents")
-      .add(payload)
-      .then(doc => {
-        // 記事をstoreに追加
-        commit("setPost", payload);
-        // 記事用のpayloadを生成する
-        payload = {
-          title: payload["title"],
-          summary: payload["summary"],
-          insert_timestamp: payload["insert_timestamp"],
-          update_timestamp: payload["update_timestamp"],
-          image_url: payload["image_url"],
-          content_id: doc.id
-        };
-        // 目次をstoreに追加
-        dispatch("addIndex", { payload });
-      })
-      .catch(e => {});
-  },
-  async updateIndex({ commit }, { payload, id }) {
+  // 引数のidに一致するインデックスを更新する
+  async updateIndex ({ commit }, { payload, id }) {
     // インデックスのコレクションから該当記事のドキュメントを取得
     await db
       .collection("post_index")
@@ -115,31 +89,7 @@ export const actions = {
       .catch(e => {
       });
   },
-  // 記事を更新する
-  // TODO: 目次も忘れずに更新する！
-  async updatePost({ commit, dispatch }, { id, payload }) {
-    await db
-      .collection("post_contents")
-      .doc(id)
-      .update(payload)
-      .then(doc => {
-        // 記事をstoreに追加
-        commit("setPost", payload);
-        // TODO:idを保有するstoreの内容を更新する
-        // 目次をstoreに追加
-        payload = {
-          title: payload["title"],
-          summary: payload["summary"],
-          insert_timestamp: payload["insert_timestamp"],
-          update_timestamp: payload["update_timestamp"],
-          image_url: payload["image_url"],
-          content_id: id
-        };
-        dispatch("updateIndex", { id, payload });
-      })
-      .catch(e => {
-      });
-  },
+  // 引数のidに一致するインデックスを削除する
   async deleteIndex ({ commit }, { id }) {
     await db
       .collection("post_index")
@@ -159,10 +109,70 @@ export const actions = {
             });
         });
       })
+      .catch(e => { });
+  },
+  /*
+  ***************************************
+  **        Post(記事内容)操作用         **
+  ***************************************
+  */
+  // 選択した記事を取得する
+  async fetchPost({ commit }, id) {
+    await db
+      .collection("post_contents")
+      .doc(id)
+      .get()
+      .then(doc => {
+        commit("setPost", doc.data());
+      });
+  },
+  // 記事を追加する
+  async addPost({ commit, dispatch }, { payload }) {
+    await db
+      .collection("post_contents")
+      .add(payload)
+      .then(doc => {
+        // 記事をstoreに追加
+        commit("setPost", payload);
+        // 記事用のpayloadを生成する
+        payload = {
+          title: payload["title"],
+          summary: payload["summary"],
+          insert_timestamp: payload["insert_timestamp"],
+          update_timestamp: payload["update_timestamp"],
+          image_url: payload["image_url"],
+          content_id: doc.id
+        };
+        // 目次をstoreに追加
+        dispatch("addIndex", { payload });
+      })
       .catch(e => {});
   },
+
+  // 記事を更新する
+  async updatePost({ commit, dispatch }, { id, payload }) {
+    await db
+      .collection("post_contents")
+      .doc(id)
+      .update(payload)
+      .then(doc => {
+        // 記事をstoreに追加
+        commit("setPost", payload);
+        // 目次をstoreに追加
+        payload = {
+          title: payload["title"],
+          summary: payload["summary"],
+          insert_timestamp: payload["insert_timestamp"],
+          update_timestamp: payload["update_timestamp"],
+          image_url: payload["image_url"],
+          content_id: id
+        };
+        dispatch("updateIndex", { id, payload });
+      })
+      .catch(e => {
+      });
+  },
   // 記事を削除する
-  // TODO: 目次も忘れずに削除する！
   async deletePost({ commit, dispatch }, { id }) {
     await db
       .collection("post_contents")

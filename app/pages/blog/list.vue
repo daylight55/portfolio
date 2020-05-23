@@ -11,9 +11,10 @@
       <v-col
         v-for="(toc, i) in sortedIndex"
         :key="i"
-        lg="3"
+        xl="3"
+        lg="4"
         md="6"
-        sm="6"
+        sm="12"
         cols="12"
       >
         <v-card
@@ -21,7 +22,7 @@
           outlined
           elevation="4"
           height="550px"
-          max-width="420px"
+          min-width="340px"
           :to="{path:'/blog/' + toc.content_id + '/show'}"
           nuxt
         >
@@ -81,14 +82,17 @@ export default {
         const character = text.charCodeAt(i)
         // 半角・全角判定
         if (character >= 0x0 && character <= 0x7F) {
+          // 半角文字は0.5文字としてカウント
           fulltext_length += 0.5
         } else {
+          // 全角文字は1文字としてカウント
           fulltext_length += 1
         }
       }
       if (fulltext_length <= length) {
         return text;
       }
+      // 引数の文字数以降は省略
       return text.substring(0, length) + ommision;
     }
   },

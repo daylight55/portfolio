@@ -39,3 +39,10 @@ export default {
   }
 };
 </script>
+
+<style>
+/* Vuetifyによるcode要素にかかる影を無効化する */
+.v-application code {
+  box-shadow: none;
+}
+</style>
